@@ -4,9 +4,9 @@ require "thread"
 def reload!
   $commands = {}
   
-  old_count = Room.rooms.keys.count
+  old_count = Room.rooms.keys.length
   load FILENAME
-  Room.rooms.keys.count - old_count
+  Room.rooms.keys.length - old_count
 end
 
 class String
