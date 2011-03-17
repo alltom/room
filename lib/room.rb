@@ -76,6 +76,10 @@ class Room
     end
   end
   
+  def immediate *text
+    Printer.puts *text
+  end
+  
   def look
     "A nondescript room."
   end
