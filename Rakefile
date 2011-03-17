@@ -24,9 +24,3 @@ Jeweler::Tasks.new do |gem|
   #  gem.add_development_dependency 'rspec', '> 1.2.3'
 end
 Jeweler::RubygemsDotOrgTasks.new
-
-Rake::Task.new(:test) do
-  puts "just kidding, no tests"
-end
-
-task :default => :test
