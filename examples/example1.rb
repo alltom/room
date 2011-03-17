@@ -163,6 +163,7 @@ class Closet < Room
       "Awesome, a pencil! You place the pencil in your pocket."
     end
   end
+  dup :get_the_pencil
   
   def exit
     "You somehow manage to leave the closet." |
