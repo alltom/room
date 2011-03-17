@@ -26,7 +26,8 @@ Gem::Specification.new do |s|
     "VERSION",
     "bin/room",
     "examples/example1.rb",
-    "lib/room.rb"
+    "lib/room.rb",
+    "room.gemspec"
   ]
   s.homepage = %q{http://github.com/alltom/room}
   s.require_paths = ["lib"]
