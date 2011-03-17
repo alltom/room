@@ -97,7 +97,7 @@ class Bedroom < Room
       lose :pencil
       "You whittle the pencil to nothing."
     else
-      unknown_command
+      huh?
     end
   end
   dup :sharpen_the_pencil
@@ -106,7 +106,7 @@ class Bedroom < Room
     if have? :pencil
       "That's a mighty fine pencil sharpener. Red."
     else
-      unknown_command
+      huh?
     end
   end
   
@@ -117,7 +117,7 @@ class Bedroom < Room
       "hurtling down a snow-covered slope at break-neck speed!" |
       go("skiing1")
     else
-      unknown_command
+      huh?
     end
   end
   dup :jump_into_the_chute
@@ -146,7 +146,7 @@ class Closet < Room
   
   def look_pencil
     if @got_pencil
-      unknown_command
+      huh?
     else
       "It's too dark to see, so you settle for stubbing your" |
       "foot on it again. Definitely a No. 3 pencil." |

@@ -72,7 +72,7 @@ class Room
       Printer.puts "A great wave of relief washes over you."
       Printer.puts "The world seems larger by about #{d}." if d > 0
     else
-      Printer.puts unknown_command(action)
+      Printer.puts huh?(action)
     end
   end
   
@@ -80,7 +80,7 @@ class Room
     "A nondescript room."
   end
   
-  def unknown_command action = nil
+  def huh? action = nil
     "I don't understand."
   end
   
