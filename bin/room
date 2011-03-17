@@ -1,0 +1,35 @@
+#!/usr/bin/env ruby
+
+require "rubygems"
+require "optparse"
+
+# for testing inside gem dir
+$:.unshift File.join(File.dirname(__FILE__), '..', 'lib')
+
+require "room"
+
+opts = OptionParser.new
+opts.on("-h", "--help") do
+  puts "usage: room"
+  puts "       room [room-file.rb]"
+  exit
+end
+opts.parse! ARGV
+
+FILENAME = ARGV[0] || File.join(File.dirname(__FILE__), '..', 'examples', 'example1.rb')
+
+unless File.readable?(FILENAME)
+  $stderr.puts "cannot read file #{FILENAME}"
+  exit 1
+end
+
+reload!
+
+3.times { Printer.puts }
+
+Room.do "look"
+while line = Readline.readline('> ', true)
+  Room.do line.chomp
+end
+
+Printer.puts "\nThe world is your cantaloupe."
