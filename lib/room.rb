@@ -63,14 +63,14 @@ class Room
   def do action
     Printer.puts
     if action.strip == ""
-    elsif (r = self.class.commands.detect { |c, m| c =~ action })
-      command, method = r
-      args = command.match(action).to_a.drop(1)
-      Printer.puts self.send(method, *args).to_s.rstrip
     elsif action == "reload!"
       d = reload!
       Printer.puts "A great wave of relief washes over you."
       Printer.puts "The world seems larger by about #{d}." if d > 0
+    elsif (r = self.class.commands.detect { |c, m| c =~ action })
+      command, method = r
+      args = command.match(action).to_a.drop(1)
+      Printer.puts self.send(method, *args).to_s.rstrip
     else
       Printer.puts huh?(action)
     end
