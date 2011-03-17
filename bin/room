@@ -2,6 +2,8 @@
 
 require "rubygems"
 require "optparse"
+require "readline"
+require "highline"
 
 # for testing inside gem dir
 $:.unshift File.join(File.dirname(__FILE__), '..', 'lib')
@@ -28,7 +30,13 @@ reload!
 3.times { Printer.puts }
 
 Room.do "look"
-while line = Readline.readline('> ', true)
+loop do
+  line = if $secretive
+    $secretive = false
+    HighLine.new.ask("> ") { |q| q.echo = false }
+  else
+    Readline.readline("> ", true)
+  end
   Room.do line.chomp
 end
 

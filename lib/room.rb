@@ -1,6 +1,5 @@
 
 require "thread"
-require "readline"
 
 def reload!
   $commands = {}
@@ -39,6 +38,10 @@ class Room
   
   def go key
     Room.go key
+  end
+  
+  def be_secretive
+    $secretive = true
   end
   
   def inventory
