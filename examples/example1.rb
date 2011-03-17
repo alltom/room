@@ -139,6 +139,10 @@ class Closet < Room
      end)
   end
   
+  def stub_toe
+    "You already did that!"
+  end
+  
   def open_door
     "The door won't budge."
   end
