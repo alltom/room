@@ -8,6 +8,7 @@ class Intro < Room
       "This is Room," |
       "a virtual world for you to explore." |
       "At any time, you can type 'help', but it won't do anything." |
+      "I recommend falling back to 'look' instead." |
       "" |
       "Start by entering the room."
     end
@@ -31,6 +32,10 @@ class Bedroom < Room
     ("There is a pencil sharpener on your right." if have? :pencil) |
     ("Right behind you, there's a chute you could jump into." if @sharpened_pencil) |
     "Everything else is a blur."
+  end
+  
+  def pencil
+    "That's not even close to a sentence. Where's the verb??"
   end
   
   def look_closet
@@ -109,6 +114,7 @@ class Bedroom < Room
       huh?
     end
   end
+  dup :look_right
   
   def jump_into_chute
     if @sharpened_pencil
@@ -135,13 +141,15 @@ class Closet < Room
     (if @got_pencil
        "No wait, you can still exit the closet."
      else
-       "You stub your toe on something sharp. It feels like a pencil."
+       "You stub your toe on something sharp. It feels like a pencil." |
+       "You suddenly want to get the pencil."
      end)
   end
   
   def stub_toe
     "You already did that!"
   end
+  dup :stub
   
   def open_door
     "The door won't budge."
@@ -164,7 +172,8 @@ class Closet < Room
     else
       take :pencil
       @got_pencil = true
-      "Awesome, a pencil! You place the pencil in your pocket."
+      "Awesome, a pencil! You place the pencil in your pocket." |
+      "Something has changed around you."
     end
   end
   dup :get_the_pencil
@@ -190,7 +199,17 @@ class Skiing1 < Room
     "That was delicious." |
     go("skiing2")
   end
-  dup :eat_the_snow
+  dup :eat_the_snow, :swallow
+  
+  def spit_snow
+    "You spit out that nasty snow!" |
+    go("skiing2")
+  end
+  dup :spit
+  
+  def ski
+    go("skiing2")
+  end
 end
 
 class Skiing2 < Room

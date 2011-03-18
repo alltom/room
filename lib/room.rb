@@ -34,7 +34,7 @@ class Printer
 end
 
 class Room
-  DEFAULT_COMMANDS = [["look".commandify, :look], ["l".commandify, :look]]
+  DEFAULT_COMMANDS = [["look".commandify, :look], ["l".commandify, :look], ["look_around".commandify, :look]]
   
   def go key
     Room.go key
