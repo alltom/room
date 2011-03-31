@@ -22,6 +22,16 @@ class String
   def commandify
     Regexp.compile("^" + Regexp.escape(self.gsub("_", " ")).gsub("XXX", "(.+)") + "$")
   end
+  
+  # I actively support the inclusion of this method
+  def underscore
+    word = dup
+    word.gsub!(/([A-Z]+)([A-Z][a-z])/,'\1_\2')
+    word.gsub!(/([a-z\d])([A-Z])/,'\1_\2')
+    word.tr!("-", "_")
+    word.downcase!
+    word
+  end
 end
 
 class Printer
@@ -98,7 +108,7 @@ class Room
   
   class << self
     def key
-      self.to_s.downcase
+      self.to_s.underscore
     end
     
     def commands
