@@ -1,11 +1,12 @@
 
 require "thread"
 
-def reload!
+def reload! filename=nil
   $commands = {}
+  $last_filename ||= filename
   
   old_count = Room.rooms.keys.length
-  load FILENAME
+  load $last_filename
   Room.rooms.keys.length - old_count
 end
 

@@ -10,22 +10,39 @@ $:.unshift File.join(File.dirname(__FILE__), '..', 'lib')
 
 require "room"
 
-opts = OptionParser.new
-opts.on("-h", "--help") do
+def usage
   puts "usage: room"
-  puts "       room [room-file.rb]"
+  puts "       room for [room name]"
   exit
 end
-opts.parse! ARGV
 
-FILENAME = ARGV[0] || File.join(File.dirname(__FILE__), '..', 'examples', 'example1.rb')
-
-unless File.readable?(FILENAME)
-  $stderr.puts "cannot read file #{FILENAME}"
-  exit 1
+def find_room name
+  files = []
+  files << "#{name}.rb"
+  files << File.join(File.dirname(__FILE__), "..", "rooms", "#{name}.rb")
+  
+  files.find { |f| File.readable? f }
 end
 
-reload!
+opts = OptionParser.new
+opts.on("-h", "--help") { usage }
+opts.parse! ARGV
+
+if ARGV.length > 0
+  if ARGV[0] == "for" && !ARGV[1].nil?
+    @filename = find_room ARGV[1]
+    unless @filename
+      puts "room \"#{ARGV[1]}\" not found"
+      exit 1
+    end
+  else
+    usage
+  end
+else
+  @filename = find_room "example1"
+end
+
+reload! @filename
 
 3.times { Printer.puts }
 
