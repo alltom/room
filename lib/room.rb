@@ -51,6 +51,10 @@ class Room
     Room.go key
   end
   
+  def quietly_go key
+    Room.go key, false
+  end
+  
   def be_secretive
     $secretive = true
   end
@@ -120,10 +124,10 @@ class Room
       $rooms ||= {}
     end
     
-    def go key
+    def go key, look = true
       if rooms[key]
         $here = rooms[key]
-        "\n" + $here.look
+        "\n" + $here.look if look
       else
         $here.unknown_room key
       end
