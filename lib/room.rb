@@ -55,7 +55,7 @@ class Room
     Room.go key, false
   end
   
-  def be_secretive
+  def no_echo
     $secretive = true
   end
   
