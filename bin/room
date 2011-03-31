@@ -54,6 +54,8 @@ loop do
   else
     Readline.readline("> ", true)
   end
+  
+  break unless line
   Room.do line.chomp
 end
 
