@@ -39,7 +39,7 @@ if ARGV.length > 0
     usage
   end
 else
-  @filename = find_room "intro"
+  @filename = find_room "beginners"
 end
 
 reload! @filename
