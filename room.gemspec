@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{room}
-  s.version = "0.1.2"
+  s.version = "0.1.3"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Tom Lieber"]
-  s.date = %q{2011-03-17}
+  s.date = %q{2011-04-01}
   s.default_executable = %q{room}
   s.description = %q{the game is making the game}
   s.email = %q{tom@alltom.com}
@@ -25,17 +25,14 @@ Gem::Specification.new do |s|
     "Rakefile",
     "VERSION",
     "bin/room",
-    "examples/example1.rb",
     "lib/room.rb",
-    "room.gemspec"
+    "room.gemspec",
+    "rooms/beginners.rb"
   ]
   s.homepage = %q{http://github.com/alltom/room}
   s.require_paths = ["lib"]
   s.rubygems_version = %q{1.6.2}
   s.summary = %q{the game is making the game}
-  s.test_files = [
-    "examples/example1.rb"
-  ]
 
   if s.respond_to? :specification_version then
     s.specification_version = 3
