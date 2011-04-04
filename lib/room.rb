@@ -21,8 +21,16 @@ end
 
 def save! obj = $state
   dir_path, file_path = prefs_paths
-  Dir::mkdir dir_path unless File.exist? dir_path
-  File.open(file_path, "wb") { |f| f.write Marshal.dump(obj || {}) }
+  begin
+    Dir::mkdir dir_path unless File.exist? dir_path
+    File.open(file_path, "wb") { |f| f.write Marshal.dump(obj || {}) }
+    @previous_save_error = false
+  rescue Exception => e
+    unless @previous_save_error
+      Printer.puts "[warning: couldn't save state: #{e}]"
+      @previous_save_error = true
+    end
+  end
 end
 
 def load!
