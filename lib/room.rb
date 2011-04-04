@@ -1,16 +1,16 @@
 
 require "thread"
 
+$state = {}
+
 def reload! room_name = nil, filename = nil
   $commands = {}
   
   $room_name ||= room_name
   $last_filename ||= filename
-  $state ||= load!
   
-  old_count = Room.rooms.keys.length
   load $last_filename
-  Room.rooms.keys.length - old_count
+  load!
 end
 
 def prefs_paths
@@ -27,7 +27,7 @@ end
 
 def load!
   _, file_path = prefs_paths
-  Marshal.load(File.read(file_path)) rescue {}
+  $state = Marshal.load(File.read(file_path)) rescue $state
 end
 
 class String
@@ -80,7 +80,7 @@ class Room
   end
   
   def inventory
-    $inventory ||= []
+    $state[:inventory] ||= []
   end
   
   def have? item
@@ -98,10 +98,6 @@ class Room
   def do action
     Printer.puts
     if action.strip == ""
-    elsif action == "reload!"
-      d = reload!
-      Printer.puts "A great wave of relief washes over you."
-      Printer.puts "The world seems larger by about #{d}." if d > 0
     elsif (r = self.class.commands.detect { |c, m| c =~ action })
       command, method = r
       args = command.match(action).to_a.drop(1)
@@ -140,22 +136,39 @@ class Room
       $commands[key] ||= DEFAULT_COMMANDS.dup
     end
     
-    def rooms
-      $rooms ||= {}
+    def room key
+      $state[:rooms] ||= {}
+      $state[:rooms][key] = room_keys[key].new if $state[:rooms][key].nil? && room_keys[key]
+      $state[:rooms][key]
+    end
+    
+    def room_keys
+      $room_keys ||= {}
+    end
+    
+    def here
+      room $state[:here]
     end
     
     def go key, look = true
-      if rooms[key]
-        $here = rooms[key]
-        "\n" + $here.look if look
+      if room key
+        $state[:here] = key
+        "\n" + here.look if look
       else
-        $here.unknown_room key
+        here.unknown_room key
       end
     end
     
     def do action
-      if $here
-        $here.do action
+      if action == "debug!"
+        Printer.puts
+        Printer.puts $state.inspect
+      elsif action == "reload!"
+        reload!
+        Printer.puts
+        Printer.puts "A great wave of relief washes over you."
+      elsif here
+        here.do action
       else
         Printer.puts
         Printer.puts "Where am I?"
@@ -173,8 +186,8 @@ class Room
     end
     
     def inherited subclass
-      rooms[subclass.key] = subclass.new
-      $here ||= rooms[subclass.key]
+      room_keys[subclass.key] = subclass
+      $state[:here] ||= subclass.key
     end
     
     def method_added name
