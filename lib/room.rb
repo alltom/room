@@ -1,13 +1,33 @@
 
 require "thread"
 
-def reload! filename=nil
+def reload! room_name = nil, filename = nil
   $commands = {}
+  
+  $room_name ||= room_name
   $last_filename ||= filename
+  $state ||= load!
   
   old_count = Room.rooms.keys.length
   load $last_filename
   Room.rooms.keys.length - old_count
+end
+
+def prefs_paths
+  dir_path = File.expand_path("~/.rooms")
+  file_path = File.join(dir_path, $room_name)
+  [dir_path, file_path]
+end
+
+def save! obj = $state
+  dir_path, file_path = prefs_paths
+  Dir::mkdir dir_path unless File.exist? dir_path
+  File.open(file_path, "wb") { |f| f.write Marshal.dump(obj || {}) }
+end
+
+def load!
+  _, file_path = prefs_paths
+  Marshal.load(File.read(file_path)) rescue {}
 end
 
 class String

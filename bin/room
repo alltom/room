@@ -30,6 +30,7 @@ opts.parse! ARGV
 
 if ARGV.length > 0
   if ARGV[0] == "for" && !ARGV[1].nil?
+    @room = ARGV[1]
     @filename = find_room ARGV[1]
     unless @filename
       puts "room \"#{ARGV[1]}\" not found"
@@ -39,15 +40,18 @@ if ARGV.length > 0
     usage
   end
 else
+  @room = "beginners"
   @filename = find_room "beginners"
 end
 
-reload! @filename
+reload! @room, @filename
 
 3.times { Printer.puts }
 
 Room.do "look"
 loop do
+  save!
+  
   line = if $secretive
     $secretive = false
     HighLine.new.ask("> ") { |q| q.echo = false }
