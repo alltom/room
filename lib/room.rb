@@ -14,7 +14,7 @@ def reload! room_name = nil, filename = nil
 end
 
 def prefs_paths
-  dir_path = File.expand_path("~/.rooms")
+  dir_path = File.expand_path("~/.room")
   file_path = File.join(dir_path, $room_name)
   [dir_path, file_path]
 end
