@@ -163,6 +163,13 @@ class Room
       if action == "debug!"
         Printer.puts
         Printer.puts $state.inspect
+      elsif action == "restart!"
+        $state = { :here => $starting_room }
+        Printer.puts
+        Printer.puts "    ....."
+        Printer.puts "Your mind, a wild monkey."
+        Printer.puts "        ....,.,"
+        Room.do "look"
       elsif action == "reload!"
         reload!
         Printer.puts
@@ -187,7 +194,8 @@ class Room
     
     def inherited subclass
       room_keys[subclass.key] = subclass
-      $state[:here] ||= subclass.key
+      $starting_room ||= subclass.key
+      $state[:here] ||= $starting_room
     end
     
     def method_added name
