@@ -35,7 +35,16 @@ end
 
 def load!
   _, file_path = prefs_paths
-  $state = Marshal.load(File.read(file_path)) rescue $state
+  return unless File.exist? file_path
+  begin
+    $state = Marshal.load(File.read(file_path))
+    @previous_load_error = false
+  rescue Exception => e
+    unless @previous_load_error
+      Printer.puts "[warning: couldn't load state: #{e}]"
+      @previous_load_error = true
+    end
+  end
 end
 
 class String
