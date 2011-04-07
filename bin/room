@@ -48,6 +48,8 @@ reload! @room, @filename
 
 3.times { Printer.puts }
 
+trap("INT", "SIG_IGN")
+
 Room.do "look"
 loop do
   save!
