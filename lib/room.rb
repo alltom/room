@@ -11,6 +11,8 @@ def reload! room_name = nil, filename = nil
   
   load $last_filename
   load!
+  
+  $state[:here] ||= $starting_room
 end
 
 def prefs_paths
