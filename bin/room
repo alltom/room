@@ -46,23 +46,31 @@ end
 
 reload! @room, @filename
 
+if Array === $state[:history]
+  $state[:history].each { |h| Readline::HISTORY.push h }
+else
+  $state[:history] = []
+end
+
 3.times { Printer.puts }
 
 trap("INT", "SIG_IGN")
 
 Room.do "look"
 loop do
-  save!
-  
   line = if $secretive
     $secretive = false
     HighLine.new.ask("> ") { |q| q.echo = false }
   else
-    Readline.readline("> ", true)
+    x = Readline.readline("> ", true)
+    $state[:history] << x if x
+    x
   end
   
   break unless line
   Room.do line.chomp
+  
+  save!
 end
 
 Printer.puts "\nThe world is your cantaloupe."
