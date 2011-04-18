@@ -21,7 +21,13 @@ def prefs_paths
   [dir_path, file_path]
 end
 
+def no_save!
+  $no_save = true
+end
+
 def save! obj = $state
+  return if $no_save
+  
   dir_path, file_path = prefs_paths
   begin
     Dir::mkdir dir_path unless File.exist? dir_path
