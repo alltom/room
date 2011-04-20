@@ -34,6 +34,16 @@ def authorize_url
   request_token.authorize_url
 end
 
+def configure
+  Twitter.configure do |config|
+    config.consumer_key = $ALPHA
+    config.consumer_secret = $OMEGA
+    config.oauth_token = $state[:twitter_token]
+    config.oauth_token_secret = $state[:twitter_secret]
+  end
+  $configured = true
+end
+
 def authorize pin
   begin
     access = request_token.get_access_token(:oauth_verifier => pin)
@@ -41,12 +51,7 @@ def authorize pin
     $state[:twitter_token] = access.token
     $state[:twitter_secret] = access.secret
     
-    Twitter.configure do |config|
-      config.consumer_key = $ALPHA
-      config.consumer_secret = $OMEGA
-      config.oauth_token = $state[:twitter_token]
-      config.oauth_token_secret = $state[:twitter_secret]
-    end
+    configure
   rescue Exception
     nil
   end
@@ -57,6 +62,8 @@ def tweet_display_format message
 end
 
 def latest_tweets
+  configure unless $configured
+  
   tweets = begin
     Twitter.home_timeline($state[:last_tweet_id] ? { :since_id => $state[:last_tweet_id] } : {}).reverse
   rescue Twitter::Unauthorized
