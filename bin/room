@@ -67,6 +67,8 @@ loop do
     x
   end
   
+  save!
+  
   break unless line
   Room.do line.chomp
   
