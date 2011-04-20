@@ -3,7 +3,7 @@ $ALPHA = "sx8vQ9ZGi4F96dnuNThg"
 $OMEGA = "ZkS8eDam8tTF6tBGxi4A3sxhTTYE0EyCGHb9dAHM"
 
 $failed_requires = []
-%w{ oauth twitter uri }.each do |n|
+%w{ twitter oauth uri }.each do |n|
   begin
     require n
   rescue LoadError
