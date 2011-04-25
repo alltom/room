@@ -154,7 +154,7 @@ class Entrance2 < Room
       huh?
     end
   end
-  dup :read_paper, :look_paper
+  dup :read_the_piece_of_paper, :read_piece_of_paper, :read_the_paper, :read_paper
   
   def say_XXX pin
     return huh? unless have? :paper
